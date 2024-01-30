@@ -8,6 +8,7 @@ import Regist from "./components/pages/Regist.vue";
 import Login from "./components/pages/Login.vue";
 import Setting from "./components/pages/Setting.vue";
 import MainWrapper from "./components/MainWrapper.vue";
+import BackStage from "./components/pages/BackStage.vue";
 
 const routes = [
   {
@@ -31,6 +32,10 @@ const routes = [
   {
     path: "/login",
     component: Login,
+  },
+  {
+    path: "/admin",
+    component: BackStage,
   },
 ];
 

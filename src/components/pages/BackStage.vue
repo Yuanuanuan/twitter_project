@@ -1,7 +1,7 @@
 <template>
   <section>
     <LogoIcon :width="60" :height="60" />
-    <h1>Log in</h1>
+    <h1>BackStage Log in</h1>
     <form @submit.prevent="login">
       <BaseInput
         label="Account"
@@ -17,8 +17,7 @@
       <button type="submit" class="login-btn">Login</button>
     </form>
     <div class="foot">
-      <RouterLink to="/regist">Sign up</RouterLink>
-      <RouterLink to="/admin">BackStage</RouterLink>
+      <RouterLink to="/login">FrontStage</RouterLink>
     </div>
   </section>
 </template>

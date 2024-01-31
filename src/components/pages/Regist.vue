@@ -1,8 +1,5 @@
 <template>
-  <section>
-    <div class="title">
-      <h1>Sign up</h1>
-    </div>
+  <FormSection title="Sign up">
     <form @submit.prevent="handleSubmit">
       <BaseInput
         label="Account"
@@ -37,12 +34,13 @@
         </button>
       </div>
     </form>
-  </section>
+  </FormSection>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue";
 import BaseInput from "../UI/BaseInput.vue";
+import FormSection from "../form/FormSection.vue";
 
 const registData = reactive({
   account: "",
@@ -60,48 +58,33 @@ function handleSubmit() {
 </script>
 
 <style scoped lang="scss">
-section {
-  width: 100%;
-  height: 100vh;
-  background-color: #fefefe;
+form {
+  width: 540px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  .title {
-    margin: 2.5rem 0;
-    h1 {
-      font-size: 2rem;
-      color: #ff4000;
-    }
-  }
-  form {
-    width: 540px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 24px;
-    .buttons {
+  gap: 24px;
+  .buttons {
+    width: 100%;
+    button {
+      appearance: none;
       width: 100%;
-      button {
-        appearance: none;
-        width: 100%;
-        height: 46px;
-        border: none;
-        font-size: 16px;
-        margin: 4px 0;
-        cursor: pointer;
-      }
-      .regist-btn {
-        background-color: #ff6600;
-        color: #fff;
-        border-radius: 50px;
-      }
-      .cancel-btn {
-        background-color: transparent;
-        a {
-          color: #0099ff;
-        }
+      height: 46px;
+      border: none;
+      font-size: 16px;
+      margin: 4px 0;
+      cursor: pointer;
+    }
+    .regist-btn {
+      background-color: #ff6600;
+      color: #fff;
+      border-radius: 50px;
+    }
+    .cancel-btn {
+      background-color: transparent;
+      a {
+        color: #0099ff;
       }
     }
   }

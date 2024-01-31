@@ -8,11 +8,14 @@ import RegistPage from "./components/pages/RegistPage.vue";
 import LoginPage from "./components/pages/LoginPage.vue";
 import SettingPage from "./components/pages/SettingPage.vue";
 import MainWrapper from "./components/MainWrapper.vue";
-import BackStagePage from "./components/pages/BackStagePage.vue";
+import BackLoginPage from "./components/pages/BackLoginPage.vue";
 import ProfilePage from "./components/pages/ProfilePage.vue";
 
 import Home from "./components/main/Home.vue";
 import TweetPost from "./components/main/TweetPost.vue";
+import BackTweetPage from "./components/backStage/BackTweetPage.vue";
+import BackUserPage from "./components/backStage/BackUserPage.vue";
+import BackMainWrapper from "./components/BackMainWrapper.vue";
 
 const routes = [
   {
@@ -35,11 +38,11 @@ const routes = [
             path: "/tweet-post",
             component: TweetPost,
           },
+          {
+            path: "/profile",
+            component: ProfilePage,
+          },
         ],
-      },
-      {
-        path: "/profile",
-        component: ProfilePage,
       },
     ],
   },
@@ -52,8 +55,22 @@ const routes = [
     component: LoginPage,
   },
   {
+    path: "/admin/login",
+    component: BackLoginPage,
+  },
+  {
     path: "/admin",
-    component: BackStagePage,
+    component: BackMainWrapper,
+    children: [
+      {
+        path: "",
+        component: BackTweetPage,
+      },
+      {
+        path: "/admin/user",
+        component: BackUserPage,
+      },
+    ],
   },
 ];
 

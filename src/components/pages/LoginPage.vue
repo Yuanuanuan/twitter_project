@@ -3,7 +3,7 @@
     <LoginForm @login="login" />
     <div class="foot">
       <RouterLink to="/regist">Sign up</RouterLink>
-      <RouterLink to="/admin">BackStage</RouterLink>
+      <RouterLink to="/admin/login">BackStage</RouterLink>
     </div>
   </FormSection>
 </template>

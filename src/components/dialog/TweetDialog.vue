@@ -7,7 +7,11 @@
         </div>
         <div class="content">
           <form @submit.prevent="handleSubmit">
-            <textarea name="post" placeholder="What's news?" />
+            <textarea
+              v-model="postContent"
+              name="post"
+              placeholder="What's news?"
+            />
             <button>Tweet</button>
           </form>
         </div>
@@ -21,6 +25,7 @@ import CloseIcon from "../icons/CloseIcon.vue";
 import { ref } from "vue";
 
 const isValid = ref(false);
+const postContent = ref("");
 
 defineExpose({
   open() {
@@ -65,11 +70,13 @@ section {
     .content {
       flex: 1;
       form {
-        position: relative;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
         textarea {
           width: 100%;
-          height: 100%;
+          flex: 1;
           padding: 16px;
           resize: none;
           border: none;
@@ -78,9 +85,7 @@ section {
           font-size: 16px;
         }
         button {
-          position: absolute;
-          bottom: 16px;
-          right: 16px;
+          margin: 8px 8px 8px 0;
           appearance: none;
           width: 80px;
           height: 40px;

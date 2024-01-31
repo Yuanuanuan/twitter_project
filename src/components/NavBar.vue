@@ -1,25 +1,37 @@
 <template>
-  <!-- 首頁 個人資料 設定 推文               登出 -->
   <section>
     <nav>
       <div class="logo-icon">
         <LogoIcon />
       </div>
-      <div class="tool active">
-        <HomeIcon :active="true" />
+      <div
+        class="tool"
+        :class="menu === 'home' ? 'active' : ''"
+        @click="changeTool('home', '/')"
+      >
+        <HomeIcon :active="menu === 'home' ? true : false" />
         <h2>Home</h2>
       </div>
-      <div class="tool">
-        <UserIcon />
+      <div
+        class="tool"
+        :class="menu === 'profile' ? 'active' : ''"
+        @click="changeTool('profile', '/profile')"
+      >
+        <UserIcon :active="menu === 'profile' ? true : false" />
         <h2>Profile</h2>
       </div>
-      <div class="tool">
-        <Setting />
+      <div
+        class="tool"
+        :class="menu === 'setting' ? 'active' : ''"
+        @click="changeTool('setting', '/setting')"
+      >
+        <Setting :active="menu === 'setting' ? true : false" />
         <h2>Setting</h2>
       </div>
       <div class="tweet-btn">
-        <button>Tweet</button>
+        <button @click="dialogRef.open()">Tweet</button>
       </div>
+      <TweetDialog ref="dialogRef" />
     </nav>
     <div class="logout-btn">
       <LogoutIcon />
@@ -34,9 +46,22 @@ import Setting from "./icons/SettingIcon.vue";
 import UserIcon from "./icons/UserIcon.vue";
 import LogoutIcon from "./icons/LogoutIcon.vue";
 import LogoIcon from "./icons/LogoIcon.vue";
+import TweetDialog from "./dialog/TweetDialog.vue";
 import { useRouter } from "vue-router";
+import { ref } from "vue";
 
 const router = useRouter();
+
+type Menu = "home" | "profile" | "setting";
+
+const menu = ref<Menu>("home");
+
+const dialogRef = ref();
+
+function changeTool(val: Menu, path: any) {
+  menu.value = val;
+  router.push(path);
+}
 
 function logOut() {
   console.log("logout");

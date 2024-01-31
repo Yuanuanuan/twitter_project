@@ -43,11 +43,11 @@ import BaseInput from "../UI/BaseInput.vue";
 
 const currentAccountData = {
   // fake data
-  account: "Yuan",
-  username: "Kao",
-  email: "123@example",
-  password: "p123",
-  confirmPassword: "p123",
+  account: "Test123",
+  username: "Test1212",
+  email: "Test123@example",
+  password: "test123",
+  confirmPassword: "test123",
 };
 const newAccountData = reactive(currentAccountData);
 </script>

@@ -17,7 +17,7 @@ const router = useRouter();
 
 function login(loginInfo: any) {
   console.log(loginInfo);
-  router.push("/");
+  router.push("/home");
 }
 </script>
 

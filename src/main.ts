@@ -16,10 +16,13 @@ import TweetPost from "./components/main/TweetPost.vue";
 import BackTweetPage from "./components/backStage/BackTweetPage.vue";
 import BackUserPage from "./components/backStage/BackUserPage.vue";
 import BackMainWrapper from "./components/BackMainWrapper.vue";
+import ProfileTweet from "./components/profile/ProfileTweet.vue";
+import ProfileReply from "./components/profile/ProfileReply.vue";
+import ProfileLiked from "./components/profile/ProfileLiked.vue";
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     component: HomePage,
     children: [
       {
@@ -27,11 +30,11 @@ const routes = [
         component: SettingPage,
       },
       {
-        path: "/",
+        path: "",
         component: MainWrapper,
         children: [
           {
-            path: "/",
+            path: "",
             component: Home,
           },
           {
@@ -41,6 +44,20 @@ const routes = [
           {
             path: "/profile",
             component: ProfilePage,
+            children: [
+              {
+                path: "",
+                component: ProfileTweet,
+              },
+              {
+                path: "/profile/tweet-reply",
+                component: ProfileReply,
+              },
+              {
+                path: "/profile/liked",
+                component: ProfileLiked,
+              },
+            ],
           },
         ],
       },

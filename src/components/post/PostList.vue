@@ -16,7 +16,7 @@ interface IPost {
 const postList = ref<IPost[]>([]);
 
 onMounted(async () => {
-  const res = await axios.get("https://dummyjson.com/posts");
+  const res = await axios.get("https://dummyjson.com/posts?limit=50");
   postList.value = res.data.posts;
 });
 </script>

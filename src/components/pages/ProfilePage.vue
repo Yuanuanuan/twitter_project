@@ -1,13 +1,13 @@
 <template>
   <section>
     <div class="title">
-      <ArrowIcon />
+      <ArrowIcon @click="clickBack" />
       <div class="header">
         <h1 class="username">John Doe</h1>
         <h3 class="post-sum">25 tweet</h3>
       </div>
     </div>
-    <div class="info">
+    <section class="info">
       <div class="info-img">
         <img src="../../assets/CoverPhoto.png" />
         <div class="user-img">
@@ -40,21 +40,58 @@
         </div>
       </div>
       <div class="tools-bar">
-        <div class="tool active">Tweet</div>
-        <div class="tool">Tweet & Reply</div>
-        <div class="tool">Liked</div>
+        <div
+          class="tool"
+          :class="menu === 'tweet' ? 'active' : null"
+          @click="changeTool('tweet', '/profile')"
+        >
+          Tweet
+        </div>
+        <div
+          class="tool"
+          :class="menu === 'tweet&reply' ? 'active' : null"
+          @click="changeTool('tweet&reply', '/profile/tweet-reply')"
+        >
+          Tweet & Reply
+        </div>
+        <div
+          class="tool"
+          :class="menu === 'liked' ? 'active' : null"
+          @click="changeTool('liked', '/profile/liked')"
+        >
+          Liked
+        </div>
       </div>
-    </div>
+      <RouterView />
+    </section>
   </section>
 </template>
 
 <script setup lang="ts">
 import ArrowIcon from "../icons/ArrowIcon.vue";
+import { useRouter, RouterView } from "vue-router";
+import { ref } from "vue";
+
+type Menu = "tweet" | "tweet&reply" | "liked";
+
+const router = useRouter();
+
+const menu = ref<Menu>("tweet");
+
+function changeTool(str: Menu, path: string) {
+  menu.value = str;
+  router.push(path);
+}
+
+function clickBack() {
+  router.go(-1);
+}
 </script>
 
 <style scoped lang="scss">
 section {
   flex: 1;
+  height: 100%;
   .title {
     border-bottom: 1px solid #e6ecf0;
     padding: 4px 0 4px 12px;
@@ -76,7 +113,12 @@ section {
   }
   .info {
     width: 100%;
+    height: calc(100% - 49px);
     border-bottom: 1px solid #e6ecf0;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     .info-img {
       width: 100%;
       position: relative;

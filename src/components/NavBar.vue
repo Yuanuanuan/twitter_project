@@ -7,7 +7,7 @@
       <div
         class="tool"
         :class="menu === 'home' ? 'active' : ''"
-        @click="changeTool('home', '/')"
+        @click="changeTool('/home')"
       >
         <HomeIcon :active="menu === 'home' ? true : false" />
         <h2>Home</h2>
@@ -15,7 +15,7 @@
       <div
         class="tool"
         :class="menu === 'profile' ? 'active' : ''"
-        @click="changeTool('profile', '/profile')"
+        @click="changeTool('/profile')"
       >
         <UserIcon :active="menu === 'profile' ? true : false" />
         <h2>Profile</h2>
@@ -23,7 +23,7 @@
       <div
         class="tool"
         :class="menu === 'setting' ? 'active' : ''"
-        @click="changeTool('setting', '/setting')"
+        @click="changeTool('/setting')"
       >
         <Setting :active="menu === 'setting' ? true : false" />
         <h2>Setting</h2>
@@ -33,9 +33,9 @@
       </div>
       <TweetDialog ref="dialogRef" />
     </nav>
-    <div class="logout-btn">
+    <div class="logout-btn" @click="logOut">
       <LogoutIcon />
-      <button @click="logOut">Log Out</button>
+      <button>Log Out</button>
     </div>
   </section>
 </template>
@@ -47,19 +47,20 @@ import UserIcon from "./icons/UserIcon.vue";
 import LogoutIcon from "./icons/LogoutIcon.vue";
 import LogoIcon from "./icons/LogoIcon.vue";
 import TweetDialog from "./dialog/TweetDialog.vue";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { computed, ref } from "vue";
 
 const router = useRouter();
+const route = useRoute();
 
-type Menu = "home" | "profile" | "setting";
-
-const menu = ref<Menu>("home");
+const menu = computed(() => {
+  let path = route.path;
+  return path.split("/")[1];
+});
 
 const dialogRef = ref();
 
-function changeTool(val: Menu, path: any) {
-  menu.value = val;
+function changeTool(path: string) {
   router.push(path);
 }
 

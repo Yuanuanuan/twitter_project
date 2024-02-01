@@ -72,10 +72,9 @@ function logOut() {
 
 <style scoped lang="scss">
 section {
-  width: 23%;
+  width: 23vw;
   min-width: 200px;
-  height: 100vh;
-  padding: 18px;
+  padding: 18px 0;
   border-right: 1px solid #e6ecf0;
 
   display: flex;

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="profile-wrapper">
     <div class="title">
       <ArrowIcon @click="clickBack" />
       <div class="header">
@@ -10,14 +10,15 @@
     <section class="info">
       <div class="info-img">
         <img src="../../assets/CoverPhoto.png" />
-        <div class="user-img">
+        <div class="user-img flex">
           <img
             src="https://www.fountain.org.tw/upload/repository/74a7f73b7f18d193ddebff71c0b8afeaimage_normal.jpg"
           />
         </div>
       </div>
       <div class="edit-btn">
-        <button>Edit Profile</button>
+        <button @click="profileDialogRef.open">Edit Profile</button>
+        <ProfileDialog ref="profileDialogRef" />
       </div>
       <div class="info-details">
         <div class="name-account">
@@ -62,8 +63,8 @@
           Liked
         </div>
       </div>
-      <RouterView />
     </section>
+    <RouterView />
   </section>
 </template>
 
@@ -71,12 +72,14 @@
 import ArrowIcon from "../icons/ArrowIcon.vue";
 import { useRouter, RouterView } from "vue-router";
 import { ref } from "vue";
+import ProfileDialog from "../dialog/ProfileDialog.vue";
 
 type Menu = "tweet" | "tweet&reply" | "liked";
 
 const router = useRouter();
 
 const menu = ref<Menu>("tweet");
+const profileDialogRef = ref();
 
 function changeTool(str: Menu, path: string) {
   menu.value = str;
@@ -89,9 +92,13 @@ function clickBack() {
 </script>
 
 <style scoped lang="scss">
-section {
+.profile-wrapper {
   flex: 1;
   height: 100%;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .title {
     border-bottom: 1px solid #e6ecf0;
     padding: 4px 0 4px 12px;
@@ -113,7 +120,6 @@ section {
   }
   .info {
     width: 100%;
-    height: calc(100% - 49px);
     border-bottom: 1px solid #e6ecf0;
     overflow-y: scroll;
     &::-webkit-scrollbar {
@@ -128,20 +134,17 @@ section {
         object-fit: contain;
       }
       .user-img {
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
         border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         background-color: #fff;
         position: absolute;
         bottom: 0;
         left: 20px;
         transform: translateY(50%);
         img {
-          width: 140px;
-          height: 140px;
+          width: 130px;
+          height: 130px;
           border-radius: 50%;
           object-fit: cover;
         }

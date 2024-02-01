@@ -27,7 +27,6 @@ defineProps({
 section {
   width: 100%;
   height: 60px;
-  padding: 0 4px;
   border-bottom: 1px solid #e6ecf0;
 
   display: flex;
@@ -36,6 +35,7 @@ section {
   .info {
     display: flex;
     align-items: center;
+    margin-left: 8px;
     gap: 8px;
     img {
       width: 50px;
@@ -58,6 +58,7 @@ section {
     padding: 0 12px;
     border-radius: 50px;
     height: 35px;
+    margin-right: 8px;
     cursor: pointer;
   }
   button.follow {

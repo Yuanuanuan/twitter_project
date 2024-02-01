@@ -5,20 +5,17 @@
     </div>
     <div class="right">
       <div class="title">
-        <div>TerryMedhurst <span class="details">@atuny0・Jane 23</span></div>
+        <div>
+          {{ reply.user.username }}
+          <span class="details">@atuny0・Jane 23</span>
+        </div>
+        <div>
+          <span class="details">reply </span>
+          <span class="reply-span">@Daniel</span>
+        </div>
       </div>
       <div class="content">
-        <p>{{ post.body }}</p>
-      </div>
-      <div class="tools">
-        <div class="tool">
-          <MessageIcon />
-          <div class="sum">22</div>
-        </div>
-        <div class="tool">
-          <LoveIcon />
-          <div class="sum" :class="1 == 1 ? 'love' : ''">76</div>
-        </div>
+        <p>{{ reply.body }}</p>
       </div>
     </div>
   </section>
@@ -26,18 +23,19 @@
 
 <script setup lang="ts">
 import { PropType } from "vue";
-import LoveIcon from "../icons/LoveIcon.vue";
-import MessageIcon from "../icons/MessageIcon.vue";
 
-interface IPost {
+interface IReply {
   id: number;
   body: string;
-  userId: number;
+  user: {
+    username: string;
+    id: number;
+  };
 }
 
 defineProps({
-  post: {
-    type: Object as PropType<IPost>,
+  reply: {
+    type: Object as PropType<IReply>,
     required: true,
   },
 });
@@ -63,10 +61,13 @@ section {
     .title {
       font-weight: 700;
       font-size: 15px;
-      span {
+      .details {
         color: #657786;
         font-weight: normal;
         font-size: 14px;
+      }
+      .reply-span {
+        color: #ff6600;
       }
     }
     .content {
@@ -80,23 +81,6 @@ section {
         overflow: hidden;
         text-overflow: ellipsis;
         flex-wrap: none;
-      }
-    }
-    .tools {
-      color: #657786;
-      font-size: 14px;
-      margin-top: 4px;
-      display: flex;
-      .tool {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .sum {
-          margin: 0 4px;
-        }
-        .love {
-          color: #e0245e;
-        }
       }
     }
   }

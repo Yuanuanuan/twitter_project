@@ -1,3 +1,7 @@
 <template>
-  <div>ProfileReply</div>
+  <ReplyList />
 </template>
+
+<script setup lang="ts">
+import ReplyList from "../reply/ReplyList.vue";
+</script>

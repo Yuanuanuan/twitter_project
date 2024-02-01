@@ -57,7 +57,6 @@ function logOut() {
 section {
   width: 23%;
   min-width: 200px;
-  height: 100vh;
   padding: 18px;
   border-right: 1px solid #e6ecf0;
 

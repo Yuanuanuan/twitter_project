@@ -13,7 +13,7 @@ import UserList from "./UserList.vue";
 
 <style scoped lang="scss">
 section {
-  width: 27%;
+  width: 27vw;
   min-width: 250px;
   padding: 12px 16px;
   border-left: 1px solid #e6ecf0;

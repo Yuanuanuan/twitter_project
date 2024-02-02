@@ -1,18 +1,24 @@
 <template>
-  <section>
+  <section class="aside-wrapper">
     <main>
       <div class="title">Popular</div>
-      <UserList />
+      <UserItem :following="true" />
+      <UserItem :following="false" />
+      <UserItem :following="false" />
+      <UserItem :following="false" />
+      <UserItem :following="true" />
+      <UserItem :following="false" />
+      <UserItem :following="false" />
     </main>
   </section>
 </template>
 
 <script setup lang="ts">
-import UserList from "./UserList.vue";
+import UserItem from "./UserItem.vue";
 </script>
 
 <style scoped lang="scss">
-section {
+.aside-wrapper {
   width: 27vw;
   min-width: 250px;
   padding: 12px 16px;

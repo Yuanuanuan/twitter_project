@@ -3,59 +3,45 @@ import "./style.css";
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 
-import HomePage from "./components/pages/HomePage.vue";
-import RegistPage from "./components/pages/RegistPage.vue";
-import LoginPage from "./components/pages/LoginPage.vue";
-import SettingPage from "./components/pages/SettingPage.vue";
-import MainWrapper from "./components/MainWrapper.vue";
-import BackLoginPage from "./components/pages/BackLoginPage.vue";
-import ProfilePage from "./components/pages/ProfilePage.vue";
-
-import Home from "./components/main/Home.vue";
-import TweetPost from "./components/main/TweetPost.vue";
-import BackTweetPage from "./components/backStage/BackTweetPage.vue";
-import BackUserPage from "./components/backStage/BackUserPage.vue";
-import BackMainWrapper from "./components/BackMainWrapper.vue";
-import ProfileTweet from "./components/profile/ProfileTweet.vue";
-import ProfileReply from "./components/profile/ProfileReply.vue";
-import ProfileLiked from "./components/profile/ProfileLiked.vue";
-
 const routes = [
   {
     path: "/home",
-    component: HomePage,
+    component: () => import("./components/pages/HomePage.vue"),
     children: [
       {
         path: "/setting",
-        component: SettingPage,
+        component: () => import("./components/pages/SettingPage.vue"),
       },
       {
         path: "",
-        component: MainWrapper,
+        component: () => import("./components/MainWrapper.vue"),
         children: [
           {
             path: "",
-            component: Home,
+            component: () => import("./components/main/Home.vue"),
           },
           {
             path: "/tweet-post",
-            component: TweetPost,
+            component: () => import("./components/main/TweetPost.vue"),
           },
           {
             path: "/profile",
-            component: ProfilePage,
+            component: () => import("./components/pages/ProfilePage.vue"),
             children: [
               {
                 path: "",
-                component: ProfileTweet,
+                component: () =>
+                  import("./components/profile/ProfileTweet.vue"),
               },
               {
                 path: "/profile/tweet-reply",
-                component: ProfileReply,
+                component: () =>
+                  import("./components/profile/ProfileReply.vue"),
               },
               {
                 path: "/profile/liked",
-                component: ProfileLiked,
+                component: () =>
+                  import("./components/profile/ProfileLiked.vue"),
               },
             ],
           },
@@ -65,27 +51,27 @@ const routes = [
   },
   {
     path: "/regist",
-    component: RegistPage,
+    component: () => import("./components/pages/RegistPage.vue"),
   },
   {
     path: "/login",
-    component: LoginPage,
+    component: () => import("./components/pages/LoginPage.vue"),
   },
   {
     path: "/admin/login",
-    component: BackLoginPage,
+    component: () => import("./components/pages/BackLoginPage.vue"),
   },
   {
     path: "/admin",
-    component: BackMainWrapper,
+    component: () => import("./components/BackMainWrapper.vue"),
     children: [
       {
         path: "",
-        component: BackTweetPage,
+        component: () => import("./components/backStage/BackTweetPage.vue"),
       },
       {
         path: "/admin/user",
-        component: BackUserPage,
+        component: () => import("./components/backStage/BackUserPage.vue"),
       },
     ],
   },

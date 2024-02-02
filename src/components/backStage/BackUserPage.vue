@@ -26,6 +26,7 @@ const userList = ref<IUser[]>();
 
 onMounted(async () => {
   const res = await axios.get("https://dummyjson.com/users");
+  console.log(res.data.users);
   userList.value = res.data.users;
 });
 </script>

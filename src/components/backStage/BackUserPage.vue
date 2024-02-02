@@ -11,23 +11,15 @@
 
 <script setup lang="ts">
 import BackUserItem from "./BackUserItem.vue";
-import axios from "axios";
 import { onMounted, ref } from "vue";
-
-interface IUser {
-  id: number;
-  firstName: string;
-  lastName: string;
-  username: string;
-  image: string;
-}
+import { api } from "../../api";
+import { IUser } from "../../types";
 
 const userList = ref<IUser[]>();
 
 onMounted(async () => {
-  const res = await axios.get("https://dummyjson.com/users");
-  console.log(res.data.users);
-  userList.value = res.data.users;
+  const res = await api.get("/admin/users");
+  userList.value = res.data;
 });
 </script>
 
@@ -55,7 +47,7 @@ section {
     .user-list {
       padding: 16px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 250px));
       grid-auto-flow: row;
       gap: 16px;
     }

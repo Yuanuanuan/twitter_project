@@ -1,16 +1,16 @@
 <template>
   <div class="card-wrapper">
     <div class="top">
-      <!-- <img src="../../assets//CoverPhoto.png" class="cover" /> -->
+      <img :src="user.coverURL" class="cover" />
       <div class="user-img-box">
-        <img :src="user.image" class="user-img" />
+        <img :src="user.avatarURL" class="user-img" />
       </div>
     </div>
     <div class="bottom flex">
       <div class="info">
         <div class="user">
-          <h3>{{ fullName }}</h3>
-          <h4>@{{ user.username }}</h4>
+          <h3>{{ user.username }}</h3>
+          <h4>@{{ user.account }}</h4>
         </div>
         <div class="tools flex">
           <div class="tool flex">
@@ -32,33 +32,22 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed } from "vue";
+import { PropType } from "vue";
 import MessageIcon from "../icons/MessageIcon.vue";
 import LoveIcon from "../icons/LoveIcon.vue";
+import { IUser } from "../../types";
 
-interface IUser {
-  id: number;
-  firstName: string;
-  lastName: string;
-  username: string;
-  image: string;
-}
-
-const props = defineProps({
+defineProps({
   user: {
     type: Object as PropType<IUser>,
     required: true,
   },
 });
-
-const fullName = computed(() => {
-  return props.user.firstName + " " + props.user.lastName;
-});
 </script>
 
 <style scoped lang="scss">
 .card-wrapper {
-  height: 250px;
+  height: 280px;
   border-radius: 14px;
   .top {
     width: 100%;

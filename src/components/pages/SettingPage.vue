@@ -2,46 +2,22 @@
   <section>
     <div class="title">Setting for Accounts</div>
     <section class="set-form">
-      <form>
-        <BaseInput
-          label="Account"
-          name="account"
-          v-model:input="newAccountData.account"
-        />
-        <BaseInput
-          label="Username"
-          name="username"
-          v-model:input="newAccountData.username"
-        />
-        <BaseInput
-          label="email"
-          mode="email"
-          name="email"
-          v-model:input="newAccountData.email"
-        />
-        <BaseInput
-          label="password"
-          name="password"
-          v-model:input="newAccountData.password"
-        />
-        <BaseInput
-          label="Confirm Password"
-          name="confirmPassword"
-          v-model:input="newAccountData.confirmPassword"
-        />
+      <AccountForm @handleSubmit="handleSubmit" :formData="newAccountData">
         <div class="save-btn">
           <button>Save</button>
         </div>
-      </form>
+      </AccountForm>
     </section>
   </section>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue";
-import BaseInput from "../UI/BaseInput.vue";
+import AccountForm from "../form/AccountForm.vue";
+import { IRegistData } from "../../types";
 
 const currentAccountData = {
+  // 看能不能讀快取
   // fake data
   account: "Test123",
   username: "Test1212",
@@ -49,7 +25,12 @@ const currentAccountData = {
   password: "test123",
   confirmPassword: "test123",
 };
+
 const newAccountData = reactive(currentAccountData);
+
+function handleSubmit(data: IRegistData) {
+  console.log(data);
+}
 </script>
 
 <style scoped lang="scss">
@@ -65,25 +46,19 @@ section {
     align-items: center;
   }
   .set-form {
-    form {
-      width: 600px;
-      padding: 16px 0 0 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      .save-btn {
-        align-self: flex-end;
-        button {
-          appearance: none;
-          width: 100px;
-          height: 40px;
-          border-radius: 50px;
-          border: none;
-          background-color: #ff6600;
-          color: #fff;
-          font-size: 18px;
-          cursor: pointer;
-        }
+    padding: 12px;
+    .save-btn {
+      align-self: flex-end;
+      button {
+        appearance: none;
+        width: 100px;
+        height: 40px;
+        border-radius: 50px;
+        border: none;
+        background-color: #ff6600;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
       }
     }
   }

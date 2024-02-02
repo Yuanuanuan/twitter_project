@@ -1,48 +1,23 @@
 <template>
   <FormSection title="Sign up">
-    <form @submit.prevent="handleSubmit">
-      <BaseInput
-        label="Account"
-        name="account"
-        v-model:input="registData.account"
-      />
-      <BaseInput
-        label="Username"
-        name="username"
-        v-model:input="registData.username"
-      />
-      <BaseInput
-        label="Email"
-        mode="email"
-        name="email"
-        v-model:input="registData.email"
-      />
-      <BaseInput
-        label="Password"
-        name="password"
-        v-model:input="registData.password"
-      />
-      <BaseInput
-        label="Confirm Password"
-        name="confirmPassword"
-        v-model:input="registData.confirmPassword"
-      />
+    <AccountForm @handleSubmit="handleSubmit" :formData="registData">
       <div class="buttons">
         <button class="regist-btn" type="submit">Regist</button>
         <button class="cancel-btn" type="button">
           <RouterLink to="/login">Cancel</RouterLink>
         </button>
       </div>
-    </form>
+    </AccountForm>
   </FormSection>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue";
-import BaseInput from "../UI/BaseInput.vue";
 import FormSection from "../form/FormSection.vue";
+import AccountForm from "../form/AccountForm.vue";
+import { IRegistData } from "../../types";
 
-const registData = reactive({
+const registData = reactive<IRegistData>({
   account: "",
   username: "",
   email: "",
@@ -50,42 +25,34 @@ const registData = reactive({
   confirmPassword: "",
 });
 
-function handleSubmit() {
+function handleSubmit(data: IRegistData) {
   // check regist data is valid
   // submit regist data
-  console.log(registData);
+  console.log(data);
 }
 </script>
 
 <style scoped lang="scss">
-form {
-  width: 540px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
-  .buttons {
+.buttons {
+  width: 100%;
+  button {
+    appearance: none;
     width: 100%;
-    button {
-      appearance: none;
-      width: 100%;
-      height: 46px;
-      border: none;
-      font-size: 16px;
-      margin: 4px 0;
-      cursor: pointer;
-    }
-    .regist-btn {
-      background-color: #ff6600;
-      color: #fff;
-      border-radius: 50px;
-    }
-    .cancel-btn {
-      background-color: transparent;
-      a {
-        color: #0099ff;
-      }
+    height: 46px;
+    border: none;
+    font-size: 16px;
+    margin: 4px 0;
+    cursor: pointer;
+  }
+  .regist-btn {
+    background-color: #ff6600;
+    color: #fff;
+    border-radius: 50px;
+  }
+  .cancel-btn {
+    background-color: transparent;
+    a {
+      color: #0099ff;
     }
   }
 }

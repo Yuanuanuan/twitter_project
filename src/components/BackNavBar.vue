@@ -6,16 +6,16 @@
       </div>
       <div
         class="tool"
-        :class="menu === 'tweet-list' ? 'active' : ''"
-        @click="changeTool('tweet-list', '/admin')"
+        :class="{ active: menu === 'tweet-list' }"
+        @click="changeTool('/admin')"
       >
         <HomeIcon :active="menu === 'tweet-list' ? true : false" />
         <h2>Tweet List</h2>
       </div>
       <div
         class="tool"
-        :class="menu === 'user-list' ? 'active' : ''"
-        @click="changeTool('user-list', '/admin/user')"
+        :class="{ active: menu === 'user-list' }"
+        @click="changeTool('/admin/user')"
       >
         <UserIcon :active="menu === 'user-list' ? true : false" />
         <h2>User List</h2>
@@ -33,17 +33,23 @@ import HomeIcon from "./icons/HomeIcon.vue";
 import UserIcon from "./icons/UserIcon.vue";
 import LogoutIcon from "./icons/LogoutIcon.vue";
 import LogoIcon from "./icons/LogoIcon.vue";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { computed } from "vue";
 
 const router = useRouter();
+const route = useRoute();
 
 type Menu = "tweet-list" | "user-list";
 
-const menu = ref<Menu>("tweet-list");
+const menu = computed<Menu>(() => {
+  const value = route.path.split("/").pop();
+  if (value === "user") {
+    return "user-list";
+  }
+  return "tweet-list";
+});
 
-function changeTool(val: Menu, path: any) {
-  menu.value = val;
+function changeTool(path: any) {
   router.push(path);
 }
 

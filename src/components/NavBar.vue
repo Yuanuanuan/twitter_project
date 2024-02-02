@@ -53,10 +53,7 @@ import { computed, ref } from "vue";
 const router = useRouter();
 const route = useRoute();
 
-const menu = computed(() => {
-  let path = route.path;
-  return path.split("/")[1];
-});
+const menu = computed(() => route.path.split("/")[1]);
 
 const dialogRef = ref();
 

@@ -1,6 +1,6 @@
 <template>
   <FormSection title="BackStage Log in">
-    <LoginForm @login="login" />
+    <LoginForm @login="login" :msg="errorMsg" />
     <div class="foot">
       <RouterLink to="/login">FrontStage</RouterLink>
     </div>
@@ -11,12 +11,25 @@
 import { RouterLink, useRouter } from "vue-router";
 import LoginForm from "../form/LoginForm.vue";
 import FormSection from "../form/FormSection.vue";
+import { ref } from "vue";
+import { api } from "../../api";
+import { ILoginData } from "../../types";
 
 const router = useRouter();
 
-function login(loginInfo: any) {
-  console.log(loginInfo);
-  router.push("/admin");
+const errorMsg = ref("");
+
+async function login(loginInfo: ILoginData) {
+  try {
+    const res = await api.post("/admin/login", loginInfo);
+    if (!res.status) {
+      errorMsg.value = res.data.message;
+      return;
+    }
+    router.push("/admin");
+  } catch (err: any) {
+    errorMsg.value = err.response.data.message;
+  }
 }
 </script>
 

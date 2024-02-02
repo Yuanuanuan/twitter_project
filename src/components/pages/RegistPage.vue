@@ -100,9 +100,11 @@ function showDialog(cb: () => void) {
 
 <style scoped lang="scss">
 h4 {
-  color: #fc5a5a;
+  color: red;
+  font-size: 18px;
+  font-weight: 700;
   font-style: italic;
-  margin: -12px 0;
+  margin: 0 0 -12px 0;
 }
 .buttons {
   width: 100%;

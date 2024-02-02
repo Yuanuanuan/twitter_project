@@ -13,6 +13,7 @@
       name="password"
       v-model:input="loginInfo.password"
     />
+    <h2>{{ msg }}</h2>
     <button type="submit" class="login-btn">Login</button>
   </form>
 </template>
@@ -20,6 +21,13 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import BaseInput from "../UI/BaseInput.vue";
+
+defineProps({
+  msg: {
+    type: String,
+    default: "",
+  },
+});
 
 const loginInfo = reactive({
   account: "",
@@ -35,6 +43,13 @@ form {
   justify-content: center;
   align-items: center;
   gap: 24px;
+  h2 {
+    color: red;
+    font-size: 18px;
+    font-weight: 700;
+    font-style: italic;
+    margin: 0 0 -12px 0;
+  }
   button {
     appearance: none;
     width: 100%;

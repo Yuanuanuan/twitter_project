@@ -19,7 +19,7 @@ defineProps({
 section {
   width: 100%;
   height: 100vh;
-  padding-top: 4rem;
+  padding-top: 2rem;
   background-color: #fefefe;
   display: flex;
   flex-direction: column;

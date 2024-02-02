@@ -1,6 +1,7 @@
 <template>
   <FormSection title="Sign up">
     <AccountForm @handleSubmit="handleSubmit" :formData="registData">
+      <h4>{{ errorMsg }}</h4>
       <div class="buttons">
         <button class="regist-btn" type="submit">Regist</button>
         <button class="cancel-btn" type="button">
@@ -9,13 +10,23 @@
       </div>
     </AccountForm>
   </FormSection>
+  <HintDialog
+    v-if="dialogFlag"
+    :mode="registState.mode"
+    :message="registState.message"
+  />
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import FormSection from "../form/FormSection.vue";
 import AccountForm from "../form/AccountForm.vue";
+import HintDialog from "../dialog/HintDialog.vue";
 import { IRegistData } from "../../types";
+import { api } from "../../api";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const registData = reactive<IRegistData>({
   account: "",
@@ -25,14 +36,74 @@ const registData = reactive<IRegistData>({
   confirmPassword: "",
 });
 
-function handleSubmit(data: IRegistData) {
-  // check regist data is valid
-  // submit regist data
-  console.log(data);
+const registState = reactive({
+  mode: "",
+  message: "",
+});
+
+const errorMsg = ref("");
+const dialogFlag = ref(false);
+
+async function handleSubmit(data: IRegistData) {
+  const requiredFields = [
+    "account",
+    "username",
+    "email",
+    "password",
+    "confirmPassword",
+  ];
+
+  for (const field of requiredFields) {
+    if (data[field] === "") {
+      errorMsg.value = `${
+        field.charAt(0).toUpperCase() + field.slice(1)
+      } can't be empty!`;
+      return;
+    }
+  }
+
+  if (data.confirmPassword !== data.password) {
+    errorMsg.value = "Make sure password is the same!";
+    return;
+  }
+
+  errorMsg.value = "";
+
+  let callback = () => {};
+
+  try {
+    const res = await api.post("/regist", data);
+    if (res.data.status) {
+      registState.mode = "success";
+      callback = () => router.push("/home");
+    } else {
+      registState.mode = "error";
+    }
+    registState.message = res.data.message;
+  } catch (err: any) {
+    registState.mode = "error";
+    registState.message = err.response.data.message;
+  } finally {
+    showDialog(callback);
+  }
+}
+
+// Open the Hint Dialog
+function showDialog(cb: () => void) {
+  dialogFlag.value = true;
+  setTimeout(() => {
+    dialogFlag.value = false;
+    cb();
+  }, 1500);
 }
 </script>
 
 <style scoped lang="scss">
+h4 {
+  color: #fc5a5a;
+  font-style: italic;
+  margin: -12px 0;
+}
 .buttons {
   width: 100%;
   button {

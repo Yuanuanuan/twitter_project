@@ -41,22 +41,22 @@
       <div class="tools-bar">
         <div
           class="tool"
-          :class="menu === 'tweet' ? 'active' : null"
-          @click="changeTool('tweet', '/profile')"
+          :class="tool === 'tweet' ? 'active' : null"
+          @click="changeTool('/profile')"
         >
           Tweet
         </div>
         <div
           class="tool"
-          :class="menu === 'tweet&reply' ? 'active' : null"
-          @click="changeTool('tweet&reply', '/profile/tweet-reply')"
+          :class="tool === 'tweet&reply' ? 'active' : null"
+          @click="changeTool('/profile/tweet-reply')"
         >
           Tweet & Reply
         </div>
         <div
           class="tool"
-          :class="menu === 'liked' ? 'active' : null"
-          @click="changeTool('liked', '/profile/liked')"
+          :class="tool === 'liked' ? 'active' : null"
+          @click="changeTool('/profile/liked')"
         >
           Liked
         </div>
@@ -68,22 +68,26 @@
 
 <script setup lang="ts">
 import ArrowIcon from "../icons/ArrowIcon.vue";
-import { useRouter, RouterView } from "vue-router";
-import { ref, reactive } from "vue";
+import { useRouter, RouterView, useRoute } from "vue-router";
+import { ref, reactive, computed } from "vue";
 import ProfileDialog from "../dialog/ProfileDialog.vue";
 import { useUserStore } from "../../store";
 
-type Menu = "tweet" | "tweet&reply" | "liked";
-
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
 
-const menu = ref<Menu>("tweet");
 const profileDialogRef = ref();
 const userInfo = reactive(userStore.userInfo);
 
-function changeTool(str: Menu, path: string) {
-  menu.value = str;
+const tool = computed(() => {
+  const path = route.path.split("/").pop();
+  if (path === "profile") return "tweet";
+  if (path === "tweet-reply") return "tweet&reply";
+  if (path === "liked") return "liked";
+});
+
+function changeTool(path: string) {
   router.push(path);
 }
 
@@ -131,8 +135,8 @@ function clickBack() {
       position: relative;
       img {
         width: 100%;
-        height: 100%;
-        object-fit: contain;
+        height: 200px;
+        object-fit: cover;
       }
       .user-img {
         width: 140px;

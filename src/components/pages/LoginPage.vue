@@ -15,6 +15,9 @@ import LoginForm from "../form/LoginForm.vue";
 import FormSection from "../form/FormSection.vue";
 import { ILoginData } from "../../types";
 import { api } from "../../api";
+import { useUserStore } from "../../store";
+
+const userStore = useUserStore();
 
 const router = useRouter();
 
@@ -24,7 +27,8 @@ async function login(loginInfo: ILoginData) {
   try {
     const res = await api.post("/login", loginInfo);
 
-    if (res.status) {
+    if (res.data.status) {
+      userStore.setUserInfo(res.data.userInfo[0]);
       router.push("/home");
     }
   } catch (err: any) {

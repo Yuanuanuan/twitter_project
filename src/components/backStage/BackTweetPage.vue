@@ -13,20 +13,18 @@
 
 <script setup lang="ts">
 import BackTweetItem from "./BackTweetItem.vue";
-import axios from "axios";
 import { onMounted, ref } from "vue";
+import { api } from "../../api";
+import { ITweet_User } from "../../types";
 
-interface ITweet {
-  id: number;
-  body: string;
-  userId: number;
-}
-
-const tweetList = ref<ITweet[]>();
+const tweetList = ref<ITweet_User[]>();
 
 onMounted(async () => {
-  const res = await axios.get("https://dummyjson.com/posts");
-  tweetList.value = res.data.posts;
+  const res = await api.get("/tweets");
+
+  console.log(res.data);
+
+  tweetList.value = res.data;
 });
 </script>
 

@@ -1,33 +1,35 @@
 <template>
   <div class="wrapper">
     <div class="user-img">
-      <img
-        src="https://www.fountain.org.tw/upload/repository/74a7f73b7f18d193ddebff71c0b8afeaimage_normal.jpg"
-      />
+      <img :src="tweet.avatarURL" />
     </div>
     <div class="content">
-      <h3>Apple <span>@apple・3 小時</span></h3>
-      <p>{{ tweet.body }}</p>
+      <h3>
+        {{ tweet.username }}
+        <span>@{{ tweet.account }}・{{ time }}</span>
+      </h3>
+      <p>{{ tweet.content }}</p>
     </div>
     <CloseIcon color="#657786" :big="20" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { PropType } from "vue";
+import { PropType, computed } from "vue";
 import CloseIcon from "../icons/CloseIcon.vue";
+import { ITweet_User } from "../../types";
 
-interface ITweet {
-  id: number;
-  body: string;
-  userId: number;
-}
-
-defineProps({
+const props = defineProps({
   tweet: {
-    type: Object as PropType<ITweet>,
+    type: Object as PropType<ITweet_User>,
     required: true,
   },
+});
+
+const time = computed(() => {
+  const time = props.tweet.createAt;
+  const date = new Date(time);
+  return date.toLocaleDateString("en-CA", { month: "2-digit", day: "2-digit" });
 });
 </script>
 

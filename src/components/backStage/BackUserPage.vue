@@ -47,6 +47,7 @@ section {
     .user-list {
       padding: 16px;
       display: grid;
+      justify-content: center;
       grid-template-columns: repeat(auto-fit, minmax(200px, 250px));
       grid-auto-flow: row;
       gap: 16px;

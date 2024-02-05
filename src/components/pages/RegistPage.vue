@@ -69,13 +69,10 @@ async function handleSubmit(data: IRegistData) {
 
   errorMsg.value = "";
 
-  let callback = () => {};
-
   try {
     const res = await api.post("/regist", data);
     if (res.data.status) {
       registState.mode = "success";
-      callback = () => router.push("/home");
     } else {
       registState.mode = "error";
     }
@@ -84,17 +81,55 @@ async function handleSubmit(data: IRegistData) {
     registState.mode = "error";
     registState.message = err.response.data.message;
   } finally {
-    showDialog(callback);
+    await showDialog();
+    if (registState.mode === "success") {
+      await router.push("/login");
+    }
   }
+
+  // const res = await axios.get("https://dummyjson.com/users");
+
+  // const users = res.data.users;
+
+  // for (let user of users) {
+  //   const data = {
+  //     account: user.username,
+  //     username: user.firstName + " " + user.lastName,
+  //     email: user.email,
+  //     password: user.password,
+  //     avatarURL: user.image,
+  //   };
+
+  //   await api.post("/regist", data);
+  // }
+
+  // const res = await axios.get("https://dummyjson.com/posts");
+
+  // console.log(res.data.posts);
+
+  // const posts = res.data.posts;
+
+  // for (let post of posts) {
+  //   const random = Math.floor(Math.random() * (129 - 99) + 99);
+
+  //   const data = {
+  //     userID: random,
+  //     content: post.body,
+  //   };
+
+  //   await api.post("/tweet", data);
+  // }
 }
 
 // Open the Hint Dialog
-function showDialog(cb: () => void) {
+function showDialog() {
   dialogFlag.value = true;
-  setTimeout(() => {
-    dialogFlag.value = false;
-    cb();
-  }, 1500);
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      dialogFlag.value = false;
+      resolve();
+    }, 1500);
+  });
 }
 </script>
 

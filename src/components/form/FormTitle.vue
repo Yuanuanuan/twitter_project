@@ -1,5 +1,5 @@
 <template>
-  <LogoIcon :width="60" :height="60" />
+  <LogoIcon :size="60" />
   <h1>{{ title }}</h1>
 </template>
 

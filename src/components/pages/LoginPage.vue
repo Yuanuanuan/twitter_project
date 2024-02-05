@@ -27,10 +27,12 @@ async function login(loginInfo: ILoginData) {
   try {
     const res = await api.post("/login", loginInfo);
 
-    if (res.data.status) {
-      userStore.setUserInfo(res.data.userInfo[0]);
-      router.push("/home");
+    if (!res.data.status) {
+      return;
     }
+    userStore.setUserInfo(res.data.userInfo[0]);
+    localStorage.setItem("token", res.data.token);
+    router.push("/home");
   } catch (err: any) {
     errorMsg.value = err.response.data.message;
   }

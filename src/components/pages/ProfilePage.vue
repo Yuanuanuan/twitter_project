@@ -3,17 +3,15 @@
     <div class="title">
       <ArrowIcon @click="clickBack" />
       <div class="header">
-        <h1 class="username">John Doe</h1>
+        <h1 class="username">{{ userInfo.username }}</h1>
         <h3 class="post-sum">25 tweet</h3>
       </div>
     </div>
     <section class="info">
       <div class="info-img">
-        <img src="../../assets/CoverPhoto.png" />
+        <img :src="userInfo.coverURL" />
         <div class="user-img flex">
-          <img
-            src="https://www.fountain.org.tw/upload/repository/74a7f73b7f18d193ddebff71c0b8afeaimage_normal.jpg"
-          />
+          <img :src="userInfo.avatarURL" />
         </div>
       </div>
       <div class="edit-btn">
@@ -22,8 +20,8 @@
       </div>
       <div class="info-details">
         <div class="name-account">
-          <h2>John Doe</h2>
-          <h3>@heyJohn</h3>
+          <h2>{{ userInfo.username }}</h2>
+          <h3>@{{ userInfo.account }}</h3>
         </div>
         <p class="desc">
           Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
@@ -71,15 +69,18 @@
 <script setup lang="ts">
 import ArrowIcon from "../icons/ArrowIcon.vue";
 import { useRouter, RouterView } from "vue-router";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import ProfileDialog from "../dialog/ProfileDialog.vue";
+import { useUserStore } from "../../store";
 
 type Menu = "tweet" | "tweet&reply" | "liked";
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const menu = ref<Menu>("tweet");
 const profileDialogRef = ref();
+const userInfo = reactive(userStore.userInfo);
 
 function changeTool(str: Menu, path: string) {
   menu.value = str;

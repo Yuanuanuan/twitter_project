@@ -3,11 +3,17 @@ import "./style.css";
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import { createPinia } from "pinia";
+import { useUserStore } from "./store";
 
 const routes = [
   {
+    path: "/:pathMatch(.*)*",
+    component: () => import("./components/NotFound.vue"),
+  },
+  {
     path: "/home",
     component: () => import("./components/pages/HomePage.vue"),
+    meta: { requiresAuth: true },
     children: [
       {
         path: "/setting",
@@ -65,6 +71,7 @@ const routes = [
   {
     path: "/admin",
     component: () => import("./components/BackMainWrapper.vue"),
+    meta: { requiresAuth: true },
     children: [
       {
         path: "",
@@ -83,10 +90,24 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, _, next) => {
+  const token = localStorage.getItem("token");
+  if (to.meta.requiresAuth && !token) {
+    next("/login");
+  } else {
+    next();
+  }
+});
+
 const app = createApp(App);
 const pinia = createPinia();
 
 app.use(router);
 app.use(pinia);
 
-app.mount("#app");
+async function initialUserInfo() {
+  await useUserStore().getUserInfo();
+  app.mount("#app");
+}
+
+initialUserInfo();

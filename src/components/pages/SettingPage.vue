@@ -15,21 +15,27 @@
 import { reactive } from "vue";
 import AccountForm from "../form/AccountForm.vue";
 import { IRegistData } from "../../types";
+import { useUserStore } from "../../store";
+
+const userStore = useUserStore();
+
+const { account, username, email } = userStore.userInfo;
 
 const currentAccountData = {
-  // 看能不能讀快取
-  // fake data
-  account: "Test123",
-  username: "Test1212",
-  email: "Test123@example",
-  password: "test123",
-  confirmPassword: "test123",
+  account,
+  username,
+  email,
+  password: "",
+  confirmPassword: "",
 };
 
 const newAccountData = reactive(currentAccountData);
 
 function handleSubmit(data: IRegistData) {
+  if (data === currentAccountData) return;
+
   console.log(data);
+  console.log(currentAccountData);
 }
 </script>
 

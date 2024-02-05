@@ -1,8 +1,8 @@
 <template>
   <svg
-    :height="height"
+    :height="size"
     viewBox="117.806 161.288 464.388 377.424"
-    :width="width"
+    :width="size"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -14,11 +14,7 @@
 
 <script setup lang="ts">
 defineProps({
-  width: {
-    type: Number,
-    default: 40,
-  },
-  height: {
+  size: {
     type: Number,
     default: 40,
   },

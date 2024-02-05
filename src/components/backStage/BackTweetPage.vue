@@ -14,17 +14,14 @@
 <script setup lang="ts">
 import BackTweetItem from "./BackTweetItem.vue";
 import { onMounted, ref } from "vue";
-import { api } from "../../api";
+import { getAllTweets } from "../../api";
 import { ITweet_User } from "../../types";
 
 const tweetList = ref<ITweet_User[]>();
 
 onMounted(async () => {
-  const res = await api.get("/tweets");
-
-  console.log(res.data);
-
-  tweetList.value = res.data;
+  const token = localStorage.getItem("backToken") || "";
+  tweetList.value = await getAllTweets(token);
 });
 </script>
 

@@ -71,7 +71,7 @@ const routes = [
   {
     path: "/admin",
     component: () => import("./components/BackMainWrapper.vue"),
-    meta: { requiresAuth: true },
+    meta: { requiresBackAuth: true },
     children: [
       {
         path: "",
@@ -92,7 +92,10 @@ const router = createRouter({
 
 router.beforeEach((to, _, next) => {
   const token = localStorage.getItem("token");
-  if (to.meta.requiresAuth && !token) {
+  const backToken = localStorage.getItem("backToken");
+  if (to.meta.requiresBackAuth && !backToken) {
+    next("/admin/login");
+  } else if (to.meta.requiresAuth && !token) {
     next("/login");
   } else {
     next();
@@ -106,7 +109,7 @@ app.use(router);
 app.use(pinia);
 
 async function initialUserInfo() {
-  await useUserStore().getUserInfo();
+  await useUserStore().refreshUserInfo();
   app.mount("#app");
 }
 

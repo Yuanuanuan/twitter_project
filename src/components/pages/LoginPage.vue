@@ -1,6 +1,6 @@
 <template>
   <FormSection title="Log in">
-    <LoginForm @login="login" :msg="errorMsg" />
+    <LoginForm @login="handleLogin" :msg="errorMsg" />
     <div class="foot">
       <RouterLink to="/regist">Sign up</RouterLink>
       <RouterLink to="/admin/login">BackStage</RouterLink>
@@ -14,8 +14,8 @@ import { ref } from "vue";
 import LoginForm from "../form/LoginForm.vue";
 import FormSection from "../form/FormSection.vue";
 import { ILoginData } from "../../types";
-import { api } from "../../api";
 import { useUserStore } from "../../store";
+import { login } from "../../api";
 
 const userStore = useUserStore();
 
@@ -23,15 +23,14 @@ const router = useRouter();
 
 const errorMsg = ref("");
 
-async function login(loginInfo: ILoginData) {
+async function handleLogin(loginInfo: ILoginData) {
   try {
-    const res = await api.post("/login", loginInfo);
+    const res = await login(loginInfo);
 
-    if (!res.data.status) {
-      return;
-    }
-    userStore.setUserInfo(res.data.userInfo[0]);
-    localStorage.setItem("token", res.data.token);
+    if (!res.status) return;
+
+    userStore.setUserInfo(res.userInfo[0]);
+    localStorage.setItem("token", res.token);
     router.push("/home");
   } catch (err: any) {
     errorMsg.value = err.response.data.message;

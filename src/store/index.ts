@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { IUser } from "../types";
-import { api } from "../api";
+import { getUserInfo } from "../api";
 
 export const useUserStore = defineStore("userStore", {
   state: () => ({
@@ -20,19 +20,11 @@ export const useUserStore = defineStore("userStore", {
     setUserInfo(data: IUser) {
       this.userInfo = data;
     },
-    async getUserInfo() {
+    async refreshUserInfo() {
       if (this.token) {
-        const res = await api.get("/accountInfo", {
-          headers: {
-            Authorization: "Bearer " + this.token,
-          },
-        });
-
-        this.userInfo = res.data.userInfo[0];
-        console.log(res.data.userInfo[0]);
-        console.log(this.userInfo);
+        const res = await getUserInfo();
+        this.setUserInfo(res.userInfo);
       }
-
       return this.userInfo;
     },
   },

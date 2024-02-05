@@ -1,14 +1,17 @@
 <template>
   <section>
     <div class="left">
-      <img src="https://robohash.org/Terry.png?set=set4" />
+      <img :src="post.avatarURL" />
     </div>
     <div class="right">
       <div class="title">
-        <div>TerryMedhurst <span class="details">@atuny0・Jane 23</span></div>
+        <div>
+          {{ post.username }}
+          <span class="details">@{{ post.account }}・Jane 23</span>
+        </div>
       </div>
       <div class="content">
-        <p>{{ post.body }}</p>
+        <p>{{ post.content }}</p>
       </div>
       <div class="tools">
         <div class="tool">
@@ -28,16 +31,11 @@
 import { PropType } from "vue";
 import LoveIcon from "../icons/LoveIcon.vue";
 import MessageIcon from "../icons/MessageIcon.vue";
-
-interface IPost {
-  id: number;
-  body: string;
-  userId: number;
-}
+import { ITweet_User } from "../../types";
 
 defineProps({
   post: {
-    type: Object as PropType<IPost>,
+    type: Object as PropType<ITweet_User>,
     required: true,
   },
 });

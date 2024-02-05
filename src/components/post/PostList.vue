@@ -4,19 +4,13 @@
 
 <script setup lang="ts">
 import PostItem from "./PostItem.vue";
-import axios from "axios";
 import { onMounted, ref } from "vue";
+import { getAllTweets } from "../../api";
+import { ITweet_User } from "../../types";
 
-interface IPost {
-  id: number;
-  body: string;
-  userId: number;
-}
-
-const postList = ref<IPost[]>([]);
+const postList = ref<ITweet_User[]>([]);
 
 onMounted(async () => {
-  const res = await axios.get("https://dummyjson.com/posts?limit=50");
-  postList.value = res.data.posts;
+  postList.value = await getAllTweets();
 });
 </script>

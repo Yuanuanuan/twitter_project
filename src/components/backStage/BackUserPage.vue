@@ -12,13 +12,13 @@
 <script setup lang="ts">
 import BackUserItem from "./BackUserItem.vue";
 import { onMounted, ref } from "vue";
-import { api } from "../../api";
 import { IUser } from "../../types";
+import { getAllUsers } from "../../api";
 
 const userList = ref<IUser[]>();
 
 onMounted(async () => {
-  const res = await api.get("/admin/users");
+  const res = await getAllUsers();
   userList.value = res.data;
 });
 </script>

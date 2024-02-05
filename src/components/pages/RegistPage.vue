@@ -23,7 +23,7 @@ import FormSection from "../form/FormSection.vue";
 import AccountForm from "../form/AccountForm.vue";
 import HintDialog from "../dialog/HintDialog.vue";
 import { IRegistData } from "../../types";
-import { api } from "../../api";
+import { regist } from "../../api";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -70,7 +70,7 @@ async function handleSubmit(data: IRegistData) {
   errorMsg.value = "";
 
   try {
-    const res = await api.post("/regist", data);
+    const res = await regist(data);
     if (res.data.status) {
       registState.mode = "success";
     } else {

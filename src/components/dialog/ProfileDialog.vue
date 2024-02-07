@@ -7,35 +7,40 @@
             <CloseIcon @click="isValid = false" />
           </div>
           <h1>Edit Your Profile</h1>
-          <button type="submit" for="user-form">Save</button>
+          <button type="submit" form="user-form">Save</button>
         </div>
         <div class="content">
           <form id="user-form" @submit.prevent="handleSubmit">
             <div class="cover-img-box">
-              <img src="../../assets/CoverPhoto.png" />
+              <img :src="newInfo.coverURL" />
               <div class="tools">
                 <div class="file-input-box">
                   <input
                     id="cover-input"
                     type="file"
+                    name="avatarImg"
+                    accept="image/*"
                     @change="coverImageChange"
                   />
                   <label for="cover-input">
                     <UpdatePhoto />
                   </label>
                 </div>
-                <div class="delete-icon">
+                <div
+                  v-if="newInfo.coverURL !== userStore.userInfo.coverURL"
+                  class="delete-icon"
+                >
                   <CloseIcon color="white" />
                 </div>
               </div>
               <div class="user-img">
-                <img
-                  src="https://www.fountain.org.tw/upload/repository/74a7f73b7f18d193ddebff71c0b8afeaimage_normal.jpg"
-                />
+                <img :src="newInfo.avatarURL" />
                 <div class="file-input-box">
                   <input
                     id="user-input"
                     type="file"
+                    name="coverImg"
+                    accept="image/*"
                     @change="userImageChange"
                   />
                   <label for="user-input">
@@ -48,12 +53,12 @@
               <BaseInput
                 label="Account"
                 name="account"
-                v-model:input="accountValue"
+                v-model:input="newInfo.account"
               />
               <textarea
-                :class="bioValueIsValid ? '' : 'error'"
-                name="bio"
-                v-model="bioValue"
+                :class="introduceValueIsValid ? '' : 'error'"
+                name="introduce"
+                v-model="currentInfo.introduce"
                 placeholder="Introduce yourself..."
                 @blur="blurTextArea"
               ></textarea>
@@ -69,15 +74,20 @@
 import CloseIcon from "../icons/CloseIcon.vue";
 import UpdatePhoto from "../icons/UpdatePhoto.vue";
 import BaseInput from "../UI/BaseInput.vue";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
+import { useUserStore } from "../../store";
+import { updateAvatarImg, updateCoverImg } from "../../api";
+
+const userStore = useUserStore();
 
 const isValid = ref(false);
-const coverImageData = ref();
-const userImageData = ref();
-const currentUserImage = ref();
-const accountValue = ref();
-const bioValue = ref();
-const bioValueIsValid = ref(true);
+const introduceValueIsValid = ref(true);
+let avatarFormData = new FormData();
+let coverFormData = new FormData();
+
+const currentInfo = userStore.userInfo;
+
+const newInfo = reactive({ ...currentInfo });
 
 defineExpose({
   open() {
@@ -90,28 +100,50 @@ defineExpose({
 
 function coverImageChange(e: any) {
   const file = e.target.files[0];
-  const formData = new FormData();
-  coverImageData.value = formData.append("file", file);
+
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e: any) => {
+    newInfo.coverURL = e.target.result;
+    coverFormData.append("coverImg", e.target.result);
+    coverFormData.append("userID", currentInfo.id.toString());
+  };
+  reader.readAsDataURL(file);
 }
 
 function userImageChange(e: any) {
   const file = e.target.files[0];
-  currentUserImage.value = URL.createObjectURL(file);
-  console.log(currentUserImage.value);
-  const formData = new FormData();
-  userImageData.value = formData.append("file", file);
+
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e: any) => {
+    newInfo.avatarURL = e.target.result;
+    avatarFormData.append("avatarImg", e.target.result);
+    avatarFormData.append("userID", currentInfo.id.toString());
+  };
+  reader.readAsDataURL(file);
 }
 
 function blurTextArea() {
-  if (!bioValue.value) {
-    bioValueIsValid.value = false;
+  if (!newInfo.introduce) {
+    introduceValueIsValid.value = false;
     return;
   }
-  bioValueIsValid.value = true;
+  introduceValueIsValid.value = true;
 }
 
-function handleSubmit() {
-  console.log("submit");
+async function handleSubmit() {
+  // 判斷圖片有沒有改變 如果有就拆分開來處理
+  if (newInfo.avatarURL !== currentInfo.avatarURL) {
+    await updateAvatarImg(avatarFormData);
+  }
+  if (newInfo.coverURL !== currentInfo.coverURL) {
+    await updateCoverImg(coverFormData);
+  }
+
+  // const res = await api.patch("/upload", newInfo);
 }
 </script>
 
@@ -192,6 +224,8 @@ function handleSubmit() {
             left: 24px;
             transform: translateY(50%);
             z-index: 5;
+            background-color: #fff;
+            border-radius: 50%;
             img {
               width: 110px;
               height: 110px;

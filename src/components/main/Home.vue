@@ -4,9 +4,7 @@
     <div class="tweet-box">
       <form @submit.prevent="handleSubmit">
         <div class="post-content">
-          <img
-            src="https://www.fountain.org.tw/upload/repository/74a7f73b7f18d193ddebff71c0b8afeaimage_normal.jpg"
-          />
+          <img :src="userStore.userInfo.avatarURL" />
           <textarea
             v-model="postContent"
             name="post"
@@ -25,6 +23,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import PostList from "../post/PostList.vue";
+import { useUserStore } from "../../store";
+
+const userStore = useUserStore();
 
 const postContent = ref("");
 

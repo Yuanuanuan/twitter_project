@@ -12,9 +12,13 @@ export interface IUser {
   email: string;
   password: string;
   account: string;
+  introduce: string;
   username: string;
-  avatarURL: string;
-  coverURL: string;
+  avatarURL: any;
+  coverURL: any;
+  post_count: string;
+  following_count: number;
+  follower_count: number;
 }
 
 export interface ITweet_User {

@@ -44,7 +44,7 @@ const registState = reactive({
 const errorMsg = ref("");
 const dialogFlag = ref(false);
 
-async function handleSubmit(data: IRegistData) {
+async function handleSubmit() {
   const requiredFields = [
     "account",
     "username",
@@ -54,7 +54,7 @@ async function handleSubmit(data: IRegistData) {
   ];
 
   for (const field of requiredFields) {
-    if (data[field] === "") {
+    if (registData[field] === "") {
       errorMsg.value = `${
         field.charAt(0).toUpperCase() + field.slice(1)
       } can't be empty!`;
@@ -62,7 +62,7 @@ async function handleSubmit(data: IRegistData) {
     }
   }
 
-  if (data.confirmPassword !== data.password) {
+  if (registData.confirmPassword !== registData.password) {
     errorMsg.value = "Make sure password is the same!";
     return;
   }
@@ -70,7 +70,7 @@ async function handleSubmit(data: IRegistData) {
   errorMsg.value = "";
 
   try {
-    const res = await regist(data);
+    const res = await regist(registData);
     if (res.data.status) {
       registState.mode = "success";
     } else {

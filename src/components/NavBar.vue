@@ -62,7 +62,7 @@ function changeTool(path: string) {
 }
 
 function logOut() {
-  console.log("logout");
+  localStorage.removeItem("token");
   router.push("/login");
 }
 </script>

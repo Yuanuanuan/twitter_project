@@ -9,19 +9,26 @@
       </AccountForm>
     </section>
   </section>
+  <HintDialog v-if="dialogFlag" :mode="dialogMode" :message="dialogMsg" />
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import AccountForm from "../form/AccountForm.vue";
-import { IRegistData } from "../../types";
 import { useUserStore } from "../../store";
+import { updateUserInfo } from "../../api";
+import { IRegistData } from "../../types";
+import HintDialog from "../dialog/HintDialog.vue";
 
 const userStore = useUserStore();
 
 const { account, username, email } = userStore.userInfo;
 
-const currentAccountData = {
+const dialogMsg = ref("");
+const dialogMode = ref("success");
+const dialogFlag = ref(false);
+
+const currentAccountData: IRegistData = {
   account,
   username,
   email,
@@ -29,13 +36,26 @@ const currentAccountData = {
   confirmPassword: "",
 };
 
-const newAccountData = reactive(currentAccountData);
+const newAccountData = reactive<IRegistData>({ ...currentAccountData });
 
-function handleSubmit(data: IRegistData) {
-  if (data === currentAccountData) return;
+async function handleSubmit() {
+  const updateData: IRegistData = {};
+  for (let key in newAccountData) {
+    if (newAccountData[key] !== currentAccountData[key]) {
+      updateData[key] = newAccountData[key];
+    }
+  }
 
-  console.log(data);
-  console.log(currentAccountData);
+  if (!updateData) {
+    return;
+  } else {
+    const res = await updateUserInfo(updateData, userStore.userInfo.id);
+    console.log(res);
+    if (!res.data.status) {
+      dialogMsg.value = res.data.message;
+    }
+    userStore.refreshUserInfo();
+  }
 }
 </script>
 

@@ -17,15 +17,22 @@ export const useUserStore = defineStore("userStore", {
     },
   },
   actions: {
-    setUserInfo(data: IUser) {
-      this.userInfo = data;
-    },
     async refreshUserInfo() {
       if (this.token) {
         const res = await getUserInfo();
-        this.setUserInfo(res.userInfo);
+        this.userInfo = res.userInfo;
+        console.log(res.userInfo.avatarURL);
+
+        if (!res.userInfo.avatarURL) {
+          this.setAvatarDefault();
+        }
       }
+
       return this.userInfo;
+    },
+    setAvatarDefault() {
+      this.userInfo.avatarURL =
+        "https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png";
     },
   },
 });

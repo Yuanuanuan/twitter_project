@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('handleSubmit', formData)">
+  <form @submit.prevent="$emit('handleSubmit')">
     <BaseInput
       label="Account"
       name="account"

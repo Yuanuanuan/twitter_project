@@ -28,9 +28,8 @@ async function handleLogin(loginInfo: ILoginData) {
     const res = await login(loginInfo);
 
     if (!res.status) return;
-
-    userStore.setUserInfo(res.userInfo[0]);
     localStorage.setItem("token", res.token);
+    await userStore.refreshUserInfo();
     router.push("/home");
   } catch (err: any) {
     errorMsg.value = err.response.data.message;

@@ -54,7 +54,7 @@ function changeTool(path: any) {
 }
 
 function logOut() {
-  console.log("logout");
+  localStorage.removeItem("backToken");
   router.push("/admin/login");
 }
 </script>

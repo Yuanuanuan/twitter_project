@@ -4,7 +4,7 @@
       <ArrowIcon @click="clickBack" />
       <div class="header">
         <h1 class="username">{{ userInfo.username }}</h1>
-        <h3 class="post-sum">25 tweet</h3>
+        <h3 class="post-sum">{{ totalTweet }} tweet</h3>
       </div>
     </div>
     <section class="info">
@@ -24,16 +24,15 @@
           <h3>@{{ userInfo.account }}</h3>
         </div>
         <p class="desc">
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-          sint.
+          {{ userInfo.introduce }}
         </p>
         <div class="follow-box">
           <div>
-            <b>34</b>
+            <b>{{ userInfo.following_count }}</b>
             <span>Following</span>
           </div>
           <div>
-            <b>59</b>
+            <b>{{ userInfo.follower_count }}</b>
             <span>Follower</span>
           </div>
         </div>
@@ -78,6 +77,7 @@ const route = useRoute();
 const userStore = useUserStore();
 
 const profileDialogRef = ref();
+const totalTweet = ref(0);
 const userInfo = reactive(userStore.userInfo);
 
 const tool = computed(() => {
